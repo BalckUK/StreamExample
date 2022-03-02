@@ -1,4 +1,6 @@
-
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 /*
  * 내부 반복자를 사용하므로 병렬 처리가 쉽다
@@ -13,6 +15,25 @@
  *  한가지 작업을 서브 작업으로 나누고, 서브 작업들을 분리된 스레드에서 병렬적으로 처리한 후, 서브 작업들의 결과들을 최종 결합하는 방법
  *  자바는 ForkJoinPool 프레임워크를 이요해서 병렬 처리를 한다
  * */
-public class Main {
+public class ParallelExample {
+	public static void main(String[] args) {
+		List<String> list = Arrays.asList("홍길동","신용권","김자바","람다식", "박병렬");
+		
+		//순차처리
+		Stream<String> stream = list.stream();
+//		stream.forEach(name->print(name));
+		stream.forEach(ParallelExample::print);
+		
+		System.out.println();
+		
+		//병렬처리
+		Stream<String> parallelStream = list.parallelStream();
+		parallelStream.forEach(ParallelExample::print);
+	}
 
+	private static void print(String str) {
+		System.out.println(str +":" + Thread.currentThread().getName());
+	}
+	
+	
 }
